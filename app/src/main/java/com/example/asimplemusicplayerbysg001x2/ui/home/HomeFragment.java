@@ -35,12 +35,6 @@ public class HomeFragment extends Fragment {
             // 处理自动获取本地音乐按钮点击事件
             checkAndRequestPermissions();
         });
-
-
-//        HomeViewModel homeViewModel =
-//                new ViewModelProvider(this).get(HomeViewModel.class);
-//        final TextView textView = binding.textHome;
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
@@ -79,27 +73,12 @@ public class HomeFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == REQUEST_PERMISSIONS) {
-//            // 处理权限请求结果
-//            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // 权限已授予，执行获取本地音乐的操作
-//                // 获取本地音乐
-//                fetchLocalMusic();
-//            } else {
-//                // 用户拒绝了权限请求
-//            }
-//        }
-//    }
 
     private void fetchLocalMusic() {
         // 获取本地音乐的逻辑
         // 这里可以使用 MediaStore 或其他方法获取设备上的音乐文件信息
 
         // 初始化 RecyclerView
-
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
         // 初始化音乐列表数据
