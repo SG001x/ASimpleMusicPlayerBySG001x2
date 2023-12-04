@@ -1,5 +1,7 @@
 package com.example.asimplemusicplayerbysg001x2;
 
+import com.example.asimplemusicplayerbysg001x2.bean.User;
+
 import java.util.ArrayList;
 import java.util.List;
 

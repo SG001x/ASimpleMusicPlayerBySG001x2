@@ -1,10 +1,8 @@
 package com.example.asimplemusicplayerbysg001x2.ui.home;
 
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.asimplemusicplayerbysg001x2.LocalMusicUtils;
 import com.example.asimplemusicplayerbysg001x2.MusicAdapter;
+import com.example.asimplemusicplayerbysg001x2.bean.Song;
 import com.example.asimplemusicplayerbysg001x2.databinding.FragmentHomeBinding;
 
 import java.util.ArrayList;
@@ -98,36 +98,17 @@ public class HomeFragment extends Fragment {
         // 获取本地音乐的逻辑
         // 这里可以使用 MediaStore 或其他方法获取设备上的音乐文件信息
 
-        // 示例代码：获取 MediaStore 中的音乐
-        String[] projection = {
-                MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.ARTIST
-        };
+        // 初始化 RecyclerView
 
-        Cursor cursor = requireContext().getContentResolver().query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                projection,
-                null,
-                null,
-                null
-        );
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        if (cursor != null) {
-            List<String> musicList = new ArrayList<>();
-            while (cursor.moveToNext()) {
-                String title = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.TITLE));
-                String artist = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
+        // 初始化音乐列表数据
+        List<Song> musicList = LocalMusicUtils.getmusic(requireContext());
 
-                // TODO: 将获取的音乐信息添加到列表中
-                musicList.add(title + " - " + artist);
-            }
+        // 初始化适配器
+        MusicAdapter musicAdapter = new MusicAdapter(musicList);
 
-            cursor.close();
-
-            // 将音乐列表展示在界面上，使用 RecyclerView
-            binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-            binding.recyclerView.setAdapter(new MusicAdapter(musicList));
-        }
+        // 设置适配器
+        binding.recyclerView.setAdapter(musicAdapter);
     }
 }

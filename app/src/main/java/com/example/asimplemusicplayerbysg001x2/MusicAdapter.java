@@ -8,13 +8,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.asimplemusicplayerbysg001x2.bean.Song;
+
 import java.util.List;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHolder> {
 
-    private List<String> musicList;
+    private List<Song> musicList;
 
-    public MusicAdapter(List<String> musicList) {
+    public MusicAdapter(List<Song> musicList) {
         this.musicList = musicList;
     }
 
@@ -27,13 +29,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MusicViewHolder holder, int position) {
-        String musicItem = musicList.get(position);
+        Song song = musicList.get(position);
         // 解析音乐信息并绑定到视图
         // 这里简单地将音乐名称和歌手显示在 TextView 中
-        String[] musicInfo = musicItem.split(" - ");
-        holder.tvSongTitle.setText(musicInfo[0]);
-        holder.tvArtist.setText(musicInfo.length > 1 ? musicInfo[1] : "");
+        String musicInfo = song.getName();
+        // 设置到视图上
+        holder.tvSongTitle.setText(musicInfo);
+        holder.tvArtist.setText("");
     }
+
 
     @Override
     public int getItemCount() {
