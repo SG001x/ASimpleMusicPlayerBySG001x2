@@ -19,9 +19,19 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
     private List<Song> musicList;
     private final OnItemClickListener onItemClickListener;
 
+//    public MusicAdapter(List<Song> musicList, OnItemClickListener onItemClickListener) {
+//        this.musicList = musicList;
+//        this.onItemClickListener = onItemClickListener != null ? onItemClickListener : song -> {};
+//    }
+
     public MusicAdapter(List<Song> musicList, OnItemClickListener onItemClickListener) {
         this.musicList = musicList;
-        this.onItemClickListener = onItemClickListener != null ? onItemClickListener : song -> {};
+        this.onItemClickListener = onItemClickListener != null ? onItemClickListener : new OnItemClickListener() {
+            @Override
+            public void onItemClick(Song song) {
+                // 默认实现，你可以选择不做任何事情
+            }
+        };
     }
 
     public MusicAdapter(List<Song> musicList) {
@@ -87,6 +97,4 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MusicViewHol
             tvArtist = itemView.findViewById(R.id.tvArtist);
         }
     }
-
-
 }
