@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment implements MusicAdapter.OnItemClickLi
             // binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
             // 初始化音乐列表数据
-            List<Song> musicList = checkAndRequestPermissions();
+            List<Song> musicList = LocalMusicUtils.getmusic(requireContext());
 
             // 初始化适配器
             MusicAdapter musicAdapter = new MusicAdapter(musicList, this);
@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements MusicAdapter.OnItemClickLi
         binding = null;
     }
 
-    private List<Song> checkAndRequestPermissions() {
+    private void checkAndRequestPermissions() {
         // Android 6.0 (API 23) 之前应用的权限在安装时全部授予，运行时应用不再需要询问用户。
         // 在 Android 6.0 或更高版本对权限进行了分类，对某些涉及到用户隐私的权限可在运行时根据用户的需要动态授予。
         // 这样就不需要在安装时被强迫同意某些权限。
@@ -100,24 +100,21 @@ public class HomeFragment extends Fragment implements MusicAdapter.OnItemClickLi
             } else {
                 if (!isMusicFetched) { // 添加条件，只有在音乐未被获取时执行
                     // 权限已授予，执行获取本地音乐的操作
-                    List<Song> musicList = fetchLocalMusic();
+                    fetchLocalMusic();
                     isMusicFetched = true; // 设置标志位为 true，表示音乐已被获取
-                    return musicList;
                 }
             }
         } else {
             // 不需要动态请求权限，直接执行获取本地音乐的操作
             if (!isMusicFetched) { // 添加条件，只有在音乐未被获取时执行
                 // 权限已授予，执行获取本地音乐的操作
-                List<Song> musicList = fetchLocalMusic();
+                fetchLocalMusic();
                 isMusicFetched = true; // 设置标志位为 true，表示音乐已被获取
-                return musicList;
             }
         }
-        return null;
     }
 
-    private List<Song> fetchLocalMusic() {
+    private void fetchLocalMusic() {
         // 获取本地音乐的逻辑
         // 使用 MediaStore 或其他方法获取设备上的音乐文件信息
         // 检查当前是否已经有音乐列表
@@ -133,9 +130,7 @@ public class HomeFragment extends Fragment implements MusicAdapter.OnItemClickLi
 
             // 设置适配器
             binding.recyclerView.setAdapter(musicAdapter);
-            return musicList;
         }
-        return null;
     }
 
     // 创建 HomeViewModel 的工厂类

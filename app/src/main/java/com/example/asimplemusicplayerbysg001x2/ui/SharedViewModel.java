@@ -31,8 +31,6 @@ public class SharedViewModel extends ViewModel {
         } else {
             play();
         }
-        // 切换播放/暂停状态
-        isPlaying.setValue(!isPlaying.getValue());
     }
 
     // 播放
@@ -98,4 +96,5 @@ public class SharedViewModel extends ViewModel {
         // 在这里实现切换到下一首歌曲的逻辑
         // 可以调用你的音乐播放库提供的方法
     }
+
 }
