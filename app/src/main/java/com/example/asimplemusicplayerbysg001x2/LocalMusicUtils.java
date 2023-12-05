@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.example.asimplemusicplayerbysg001x2.bean.Song;
 
@@ -38,12 +39,19 @@ public class LocalMusicUtils {
 
         list = new ArrayList<>();
 
-
-        Cursor cursor = context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
-                , null, null, null, MediaStore.Audio.Media.DEFAULT_SORT_ORDER);
-
+        Cursor cursor = context.getContentResolver().query(
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                null,
+                null,
+                null,
+                MediaStore.Audio.Media.DEFAULT_SORT_ORDER
+        );
         if (cursor != null) {
             while (cursor.moveToNext()) {
+                // 在这里输出一下文件路径，查看实际路径是什么
+                String path = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA));
+                Log.d("MusicPath", path);
+
                 song = new Song();
                 name = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DISPLAY_NAME));
                 id = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media._ID));
