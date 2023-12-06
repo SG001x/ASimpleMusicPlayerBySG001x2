@@ -1,8 +1,11 @@
 package com.example.asimplemusicplayerbysg001x2;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -18,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // 申请读写权限
+        ActivityCompat.requestPermissions(MainActivity.this,
+                new String[]{WRITE_EXTERNAL_STORAGE}, 1);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 

@@ -56,11 +56,11 @@
         android:paddingRight="20dp"
         android:paddingBottom="100dp">
 
-        <Button
-            android:id="@+id/btnPrevious"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="上一首" />
+<!--        <Button-->
+<!--            android:id="@+id/btnPrevious"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:text="上一首" />-->
 
         <Button
             android:id="@+id/btnPlayPause"
@@ -69,11 +69,11 @@
             android:text="@string/_1"
             android:background="@drawable/baseline_play_circle_24" />
 
-        <Button
-            android:id="@+id/btnNext"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="下一首" />
+<!--        <Button-->
+<!--            android:id="@+id/btnNext"-->
+<!--            android:layout_width="60dp"-->
+<!--            android:layout_height="60dp"-->
+<!--            android:text="下一首" />-->
 
     </LinearLayout>
 </RelativeLayout>

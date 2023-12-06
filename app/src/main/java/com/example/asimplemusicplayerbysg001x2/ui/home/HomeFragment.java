@@ -1,5 +1,6 @@
 package com.example.asimplemusicplayerbysg001x2.ui.home;
 
+import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -84,13 +85,13 @@ public class HomeFragment extends Fragment implements MusicAdapter.OnItemClickLi
         // 这样就不需要在安装时被强迫同意某些权限。
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             //检查读取外部存储权限
-            int storagePermission = ActivityCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE);
+            int storagePermission = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_MEDIA_AUDIO);
 
             List<String> permissions = new ArrayList<>();
 
             if (storagePermission != PackageManager.PERMISSION_GRANTED) {
                 // 未授予读取外部存储权限
-                permissions.add(android.Manifest.permission.READ_EXTERNAL_STORAGE);
+                permissions.add(android.Manifest.permission.READ_MEDIA_AUDIO);
             }
 
             if (!permissions.isEmpty()) {
@@ -160,7 +161,8 @@ public class HomeFragment extends Fragment implements MusicAdapter.OnItemClickLi
         // 将选中的歌曲传递给 SharedViewModel
         sharedViewModel.selectSong(song);
         // 切换播放状态
-        sharedViewModel.playPauseToggle();
+        sharedViewModel.playPauseToggle(1);
+
         // 导航到 DashboardFragment
         Navigation.findNavController(requireView()).navigate(R.id.action_homeFragment_to_dashboardFragment);
     }

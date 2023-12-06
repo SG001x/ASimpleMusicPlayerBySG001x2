@@ -17,6 +17,16 @@ public class SharedViewModel extends ViewModel {
     private MutableLiveData<Song> selectedSong = new MutableLiveData<>();
     // MediaPlayer 实例
     private MediaPlayer mediaPlayer;
+    private int pausedPosition = 0;
+
+    // 设置音乐播放进度
+    public void setMusicProgress(int progress) {
+        if (mediaPlayer != null) {
+            int duration = mediaPlayer.getDuration();
+            int newPosition = (int) ((float) duration * ((float) progress / 100.0));
+            mediaPlayer.seekTo(newPosition);
+        }
+    }
 
     public SharedViewModel() {
         // 初始化 MediaPlayer
@@ -25,23 +35,40 @@ public class SharedViewModel extends ViewModel {
     }
 
 
-    public void playPauseToggle() {
-        if (isPlaying.getValue() != null && isPlaying.getValue()) {
-            pause();
-        } else {
-            play();
+    public void playPauseToggle(int comeFrom) {
+
+        if(comeFrom == 1){
+            play(comeFrom);
+        }else{
+            if (Boolean.TRUE.equals(isPlaying.getValue())) {
+                play(comeFrom);
+            } else {
+                pause();
+            }
         }
     }
 
     // 播放
-    private void play() {
+    private void play(int comeFrom) {
         if (selectedSong.getValue() != null) {
             try {
-                mediaPlayer.reset();
-                mediaPlayer.setDataSource(selectedSong.getValue().getPath());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-                isPlaying.setValue(true);
+                if (comeFrom == 1) {
+                    mediaPlayer.reset();
+                    pausedPosition = 0;
+                }
+                if (!mediaPlayer.isPlaying()) {
+                    if (pausedPosition == 0) {
+                        // 如果是刚开始播放，设置数据源
+                        mediaPlayer.setDataSource(selectedSong.getValue().getPath());
+                        mediaPlayer.prepare();
+                    } else {
+                        // 如果是从暂停状态恢复，直接播放
+                        mediaPlayer.seekTo(pausedPosition);
+                    }
+
+                    mediaPlayer.start();
+                    isPlaying.setValue(true);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -53,6 +80,8 @@ public class SharedViewModel extends ViewModel {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.pause();
             isPlaying.setValue(false);
+            // 记录当前播放位置
+            pausedPosition = mediaPlayer.getCurrentPosition();
         }
     }
 
@@ -84,6 +113,21 @@ public class SharedViewModel extends ViewModel {
         // 在这里实现根据播放状态控制音乐的播放/暂停逻辑
         // 如果使用的是 MediaPlayer，可以在这里调用 start() 或 pause()
         return !currentStatus; // 返回切换后的状态
+    }
+
+    // 获取当前播放位置
+    public int getCurrentPosition() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getCurrentPosition();
+        }
+        return 0;
+    }
+    // 获取当前音乐的总时长
+    public int getDuration() {
+        if (mediaPlayer != null) {
+            return mediaPlayer.getDuration();
+        }
+        return 0;
     }
     // 切换到上一首歌曲
     public void playPreviousSong() {
